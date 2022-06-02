@@ -1,16 +1,16 @@
-d3.json("data/samples.json").then(function(data) {
+d3.json("samples.json").then(function(data) {
     console.log(data);
 });
 
-//Function that Display each key-value pair from the metadata
+//Function display each key-value pair from the metadata (demographic info)
 function demo_info(sample) {
     d3.json("samples.json").then((data) => {
         let metadata = data.metadata;
         let resultarray = metadata.filter(samples_res => samples_res.id == sample);
-        let result = resultarray[0];
+        let data_res = resultarray[0];
         // console.log(result)
         d3.select('#sample-metadata').html("");
-        Object.entries(result).forEach(function([key,value]) {
+        Object.entries(data_res).forEach(function([key,value]) {
             d3.select('#sample-metadata')
             .append("p").text(`${key}:${value}`);
         });
@@ -20,7 +20,7 @@ function demo_info(sample) {
 
 //bar chart function
 function bar_building(sample){
-    d3.json("data/samples.json").then(function(data) {
+    d3.json("samples.json").then((data) => {
         let sampleData=data.samples;
         //let res=mdata.filter(function(sample_res){sample_res.id==sample});
         let res=sampleData.filter(sample_res => sample_res.id==sample)
@@ -33,7 +33,7 @@ function bar_building(sample){
         
 
         //barchart
-        let yticks=otu_ids.slice(0,10).map(function(id){
+        let yticks=otu_ids.slice(0,10).map((id) => {
             return `OTU ${id}`
         });
 
@@ -47,11 +47,7 @@ function bar_building(sample){
             type:"bar",
             orientation:"h",
             mode:"markers",
-            marker:{
-                
-                color:x_values,
-                colorscale:"#FF4F00"
-            }
+            
         }
 
         let layout={
@@ -68,7 +64,7 @@ function bar_building(sample){
 
 //Bubble chart function
 function bubble_building(sample){
-    d3.json("data/samples.json").then(function(data) {
+    d3.json("samples.json").then(function(data) {
         let sampleData=data.samples;
         //let res=mdata.filter(function(sample_res){sample_res.id==sample});
         let res=sampleData.filter(sample_res => sample_res.id==sample)
@@ -79,9 +75,7 @@ function bubble_building(sample){
         let otu_labels=data_res.otu_labels;
         let sample_values=data_res.sample_values;
         
-
         //bubble chart
-
 
         let bubble_chart={
             y:sample_values,
@@ -91,7 +85,8 @@ function bubble_building(sample){
             marker:{
                 size:sample_values,
                 color:otu_ids,
-                colorscale:"#FF4F00"
+                colorscale:"00FFCE"
+                /////"#FF4F00"
             }
         }
 
@@ -110,12 +105,12 @@ function bubble_building(sample){
     });
 }
 
-//Gauge function
+//Gauge function 
 function Gauge_building(sample){
-    d3.json("data/samples.json").then(function(data) {
+    d3.json("samples.json").then((data) => {
         let mdata=data.metadata;
-        let res=mdata.filter(function(sample_res){return sample_res.id==sample});
-        //let res=mdata.filter(sample_res => sample_res.id==sample)
+        let res=mdata.filter(sample_res => sample_res.id==sample)
+        // let res=mdata.filter(function(sample_res){return sample_res.id==sample});
         let data_res=res[0]['wfreq'];
         console.log(data_res)
        
@@ -126,23 +121,23 @@ function Gauge_building(sample){
               mode: "gauge+number+delta",
               value: data_res,
               title: { text: "Belly Button Washing Frequency <br><i>Scrubs per Week</i>", font: { size: 20 } },
-              //delta: { reference: 400, increasing: { color: "RebeccaPurple" } },
+            //   delta: { reference: 50, increasing: { color: "RebeccaPurple" } },
               gauge: {
-                axis: { range: [null, 9], tickwidth: 2, tickcolor: "black" },
-                bar: { color: "#ff0000" },
+                axis: { range: [null, 9], tickwidth: 1, tickcolor: "black" },
+                bar: { color: "#ffa700" },
                 bgcolor: "white",
                 borderwidth: 2,
                 bordercolor: "black",
                 steps: [
-                  { range: [0, 1], color: "#ffdccc" },
-                  { range: [1, 2], color: "#ffcab3"},
-                  { range: [2, 3], color: "#ffb999" },
-                  { range: [3, 4], color: "#ffa780"},
-                  { range: [4, 5], color: "#ff9566" },
-                  { range: [5, 6], color: "#ff844d"},
-                  { range: [6, 7], color: "#ff7233"},
-                  { range: [7, 8], color: "#ff6119" },
-                  { range: [8, 9], color: "#ff4f00"},
+                  { range: [0, 1], color: "#e3f3f4" },
+                  { range: [1, 2], color: "#c7e6e9"},
+                  { range: [2, 3], color: "#a9dade" },
+                  { range: [3, 4], color: "#8bcdd3"},
+                  { range: [4, 5], color: "#69c1c9" },
+                  { range: [5, 6], color: "#65d5df"},
+                  { range: [6, 7], color: "#3fb4be"},
+                  { range: [7, 8], color: "#00949e" },
+                  { range: [8, 9], color: "#00949e"},
                 ],
                 
               }
@@ -152,7 +147,7 @@ function Gauge_building(sample){
           var layout = {
             
             margin: { t: 55, r: 25, l: 25, b: 25 },
-        
+            
             
           };
           var config = {responsive: true}
@@ -162,14 +157,11 @@ function Gauge_building(sample){
     });
 }
 
-
-
-
 // Fetch the JSON data and console log it
 function initialize(){
     
     var select=d3.select("#selDataset");
-    d3.json("data/samples.json").then(function(data) {
+    d3.json("samples.json").then(function(data) {
         let sample_names=data.names;
         //console.log(sample_names)
 
@@ -188,7 +180,6 @@ function initialize(){
 
     
 }
-
 
 // Function for dashboard updating
 
